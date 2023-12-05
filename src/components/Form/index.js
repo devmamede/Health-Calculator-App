@@ -17,22 +17,30 @@ export default function Form() {
   const [messageImc, setMessageImc] = useState("Informe o seu peso e altura");
   const [imc, setImc] = useState(null);
   const [textButton, setTextButton] = useState("Calcular");
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [heightErrorMessage, setHeightErrorMessage] = useState(null);
+  const [weightErrorMessage, setWeightErrorMessage] = useState(null);
 
   function imcCalculator() {
     let heightFormat = height.replace(",", ".");
     return setImc((weight / (heightFormat * heightFormat)).toFixed(2));
   }
 
-  function verificationImc() {
-    if (imc == null) {
-      setErrorMessage("Campo Obrigatório*");
+  function verifyHeight() {
+    if (height == null || height == "") {
+      setHeightErrorMessage("Campo altura obrigatório");
+    }
+  }
+
+  function verifyWeight() {
+    if (weight == null || weight == "") {
+      setWeightErrorMessage("Campo peso é obrigatório*");
       Vibration.vibrate();
     }
   }
 
   function validationImc() {
-    verificationImc();
+    verifyHeight();
+    verifyWeight();
     if (weight != null && height != null) {
       Keyboard.dismiss();
       imcCalculator();
@@ -40,20 +48,24 @@ export default function Form() {
       setWeight(null);
       setMessageImc("Seu IMC é igual a:");
       setTextButton("Calcular novamente");
-      setErrorMessage(null);
+      setHeightErrorMessage(null);
+      setWeightErrorMessage(null);
       return;
-    } else {
-      setImc(null);
-      setTextButton("Calcular");
-      setMessageImc("Por favor, informe seu peso e sua altura");
+    } else if (weight != null && height == null) {
+      setWeightErrorMessage(null);
+    } else if (weight == null && height != null) {
+      setHeightErrorMessage(null);
     }
+    setImc(null);
+    setTextButton("Calcular");
+    setMessageImc("Por favor, informe seu peso e sua altura");
   }
 
   return (
     <Pressable onPress={Keyboard.dismiss} style={styles.formContext}>
       <View style={styles.form}>
         <Text style={styles.formLabel}>Altura</Text>
-        <Text style={styles.errorMessage}>{errorMessage}</Text>
+        <Text style={styles.errorMessage}>{heightErrorMessage}</Text>
         <TextInput
           onChangeText={setHeight}
           value={height}
@@ -63,7 +75,7 @@ export default function Form() {
         />
 
         <Text style={styles.formLabel}>Peso</Text>
-        <Text style={styles.errorMessage}>{errorMessage}</Text>
+        <Text style={styles.errorMessage}>{weightErrorMessage}</Text>
         <TextInput
           onChangeText={setWeight}
           value={weight}
