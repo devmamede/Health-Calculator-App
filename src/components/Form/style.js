@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: "90%",
-    backgroundColor: "#ff0043",
+    backgroundColor: "#ff5900",
     paddingTop: 14,
     paddingBottom: 14,
     marginLeft: 12,
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
 
   errorMessage: {
     fontSize: 12,
-    color: "red",
+    color: "#ff5900",
     fontWeight: "bold",
     paddingLeft: 20,
   },
