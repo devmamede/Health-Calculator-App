@@ -21,6 +21,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 
+  statusImc: {
+    fontSize: 18,
+    color: "black",
+    fontWeight: "bold",
+  },
+
   boxShareButton: {
     width: "100%",
     alignItems: "center",
@@ -36,7 +42,7 @@ const styles = StyleSheet.create({
   sharedText: {
     color: "#fff",
     fontWeight: "bold",
-    paddingHorizontal: 30,
+    paddingHorizontal: 15,
   },
 });
 

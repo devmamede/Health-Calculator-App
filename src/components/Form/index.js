@@ -16,18 +16,32 @@ export default function Form() {
   const [weight, setWeight] = useState(null);
   const [messageImc, setMessageImc] = useState("Informe o seu peso e altura");
   const [imc, setImc] = useState(null);
+  const [statusImc, setStatusImc] = useState(null);
   const [textButton, setTextButton] = useState("Calcular");
   const [heightErrorMessage, setHeightErrorMessage] = useState(null);
   const [weightErrorMessage, setWeightErrorMessage] = useState(null);
 
   function imcCalculator() {
     let heightFormat = height.replace(",", ".");
-    return setImc((weight / (heightFormat * heightFormat)).toFixed(2));
+    let weightFormat = weight.replace(",", ".");
+    let calculatedImc = (weightFormat / (heightFormat * heightFormat)).toFixed(
+      2
+    );
+    setImc(calculatedImc);
+
+    if (calculatedImc >= 18.5 && calculatedImc <= 25) {
+      setStatusImc("Parabéns! Seu IMC está bom.");
+    } else if (calculatedImc > 25) {
+      setStatusImc("Seu IMC está alto. Procure um médico!");
+    } else {
+      setStatusImc("Seu IMC está baixo. Procure um médico!");
+    }
+    return imc;
   }
 
   function verifyHeight() {
     if (height == null || height == "") {
-      setHeightErrorMessage("Campo altura obrigatório");
+      setHeightErrorMessage("Campo altura obrigatório*");
     }
   }
 
@@ -57,6 +71,7 @@ export default function Form() {
       setHeightErrorMessage(null);
     }
     setImc(null);
+    setStatusImc(null);
     setTextButton("Calcular");
     setMessageImc("Por favor, informe seu peso e sua altura");
   }
@@ -91,7 +106,11 @@ export default function Form() {
           <Text style={styles.textButtonCalculator}>{textButton}</Text>
         </TouchableOpacity>
       </View>
-      <ResultImc messageResultImc={messageImc} ResultImc={imc} />
+      <ResultImc
+        messageResultImc={messageImc}
+        ResultImc={imc}
+        StatusImc={statusImc}
+      />
     </Pressable>
   );
 }
